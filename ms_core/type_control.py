@@ -2,26 +2,26 @@ from pymel.core import *
 import sys
 
 
-def transform_nodes_only(list_in, with_exit=False):
-	'''
-	Verifies that all items are transform nodes
+def transform_nodes_only(list_input, with_exit=False):
 
-	list_in <type 'list'>: List of selected nodes
-	with_exit <type 'bool'>: Stop program if at least one item is invalid type
+	''' Verifies that all items are transform nodes
 
-	Return <type 'list'>: List of transform nodes
-	'''
+	:param list_input:  <type 'list'>   List of selected nodes
+	:param with_exit:   <type 'bool'>   Stop program if at least one item is invalid type
+
+	:return:            <type 'list'>   List of transform nodes '''
+
 
 	list_out = []
 	valid_type = ['mesh', 'transform']
 
-	for i, list_item in enumerate(list_in):
+	for i, list_item in enumerate(list_input):
 
-		if nodeType(list_in[i]) == valid_type[0]:
-			list_out.append(list_in[i].getParent())
+		if nodeType(list_input[i]) == valid_type[0]:
+			list_out.append(list_input[i].getParent())
 
-		elif nodeType(list_in[i]) == valid_type[1]:
-			list_out.append(list_in[i])
+		elif nodeType(list_input[i]) == valid_type[1]:
+			list_out.append(list_input[i])
 
 		elif with_exit:
 			sys.exit()
@@ -29,14 +29,35 @@ def transform_nodes_only(list_in, with_exit=False):
 	return list_out
 
 
+
+def uniform_selection(list_input, item_type):
+
+	''' Verifies that all items are the same type
+
+	:param list_input:  <type 'list'>       List of selected nodes
+	:param item_type:   <type 'string'>     Name of target type
+
+	:return:            <type 'bool'>       Condition result '''
+
+
+	for i in list_input:
+
+		if i.type() == item_type:
+			continue
+		else:
+			return False
+
+	return True
+
+
+
 def matrix_to_list(matrix_in):
-	'''
-	Converts matrix attribute value to flat one level list of float values
 
-	matrix_in <class '... .Matrix'>: Matrix attribute value
+	''' Converts matrix attribute value to flat one level list of float values
 
-	Return <type 'list'>: List of 16 float values
-	'''
+	:param matrix_in:   <class '... .Matrix'>   Matrix attribute value
+	:return:            <type 'list'>           List of 16 float values '''
+
 
 	list_out = []
 
