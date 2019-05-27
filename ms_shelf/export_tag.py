@@ -713,6 +713,8 @@ class DockableWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
 			self.library_tree.setStyleSheet(self.tree_style_blue)
 			self.material_grid.setStyleSheet(self.grid_style_blue)
 
+			self.selected_material_item = None
+
 			self.empty_state.show()
 			self.material_grid.hide()
 			self.texture_tags.hide()
