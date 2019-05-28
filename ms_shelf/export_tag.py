@@ -213,7 +213,9 @@ class DockableWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
         ''' Finds item of "library_tree" with requested name of material
 
         :param material_name:   <type 'str'>                    Name of item to search
-        :return:                <class '... .QTreeWidgetItem'>  Found item of "library_tree" '''
+
+        :return:                <class '... .QTreeWidgetItem'>  Found item of "library_tree"
+        :return:                <type 'NoneType'>               If item wasn't found '''
 
 
         # for each item in tree
@@ -230,6 +232,10 @@ class DockableWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
 
                         # share link to the found tree item
                         return item
+
+
+        # if nothing found (materialTag with changed value)
+        return None
 
 
 
@@ -426,18 +432,6 @@ class DockableWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
             self.library_tree.setEnabled(True)
 
 
-            # if selected meshes objects only
-            # then show 'Textured' tree item
-            textured_item = self.library_tree.findItems(
-                'Textured',
-                QtCore.Qt.MatchExactly)[0]
-
-            if selection_state['selection_type'] == 'mesh':
-                textured_item.setHidden(False)
-            else:
-                textured_item.setHidden(True)
-
-
             # run interface in corresponding mode
             # depending on count of selected geometry objects
             if len(selected()) < 2:
@@ -518,6 +512,7 @@ class DockableWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
 
         # if all selected geometry have different tags
         # then select tree widget items
+        # (select all items if materialTag was changed manually)
         else:
 
             if self.geometry_tags['has_parameter']:
@@ -540,7 +535,12 @@ class DockableWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
                     if tag not in self.shader_parameters:
 
                         tree_item = self.find_tree_item(tag)
-                        tree_item.setSelected(True)
+                        if tree_item:
+                            tree_item.setSelected(True)
+
+                        else:
+                            for tree_item in self.get_tree_items():
+                                tree_item.setSelected(True)
 
 
             # if selected only one library category
@@ -564,18 +564,30 @@ class DockableWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
         :param material_name: <type 'str'> Material name on the basis of which will be build interface '''
 
 
-        # set material selection variable
-        self.selected_material_item = material_name
-
-
         # find tree item that has input material name
-        # select tree item
-        # switch list widget to appropriate one
-        # build previews of material group with input material name
-        # select material item with input material name
-        tree_item = self.find_tree_item(self.selected_material_item)
-        tree_item.setSelected(True)
-        self.update_list(tree_item)
+        tree_item = self.find_tree_item(material_name)
+        if tree_item:
+
+            # set material selection variable
+            # select tree item
+            self.selected_material_item = material_name
+            tree_item.setSelected(True)
+
+
+            # switch list widget to appropriate one
+            # build previews of material group with input material name
+            # select material item with input material name
+            self.update_list(tree_item)
+
+
+        # select all items if materialTag was changed manually
+        # set interface to warning style mode
+        else:
+            for tree_item in self.get_tree_items():
+                tree_item.setSelected(True)
+
+            self.library_tree.setStyleSheet(self.tree_style_red)
+            self.material_grid.setStyleSheet(self.grid_style_red)
 
 
 
