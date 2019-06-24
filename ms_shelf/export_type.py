@@ -29,15 +29,16 @@ class DockableWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
         # collect possible type values
         self.attribute_values = [
             ["polymesh",
-            "subdmesh"],
+            "subdmesh",
+            "pointcloud"],
             ["group",
             "assembly",
             "component",
             "instance",
             "instance source",
             "instance array",
-            "level-of-detail group",
-            "level-of-detail"]]
+            "level-of-detail",
+            "level-of-detail group"]]
 
 
         # create main layout
