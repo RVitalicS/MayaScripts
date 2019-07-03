@@ -29,15 +29,43 @@ class DockableWindow(MayaQWidgetDockableMixin, QtWidgets.QWidget):
 
         # collect names of renderman shader parameters
         self.shader_parameters = [
+            "diffuseGain",
             "diffuseColor",
+            "diffuseRoughness",
             "primSpecEdgeColor",
             "primSpecRefractionIndex",
-            "primSpecExtinctionCoefficient",
+            "primSpecExtinctionCoeff",
             "primSpecRoughness",
-            "normal",
+            "roughSpecEdgeColor",
+            "roughSpecRefractionIndex",
+            "roughSpecExtinctionCoeff",
+            "roughSpecRoughness",
+            "clearcoatEdgeColor",
+            "clearcoatRefractionIndex",
+            "clearcoatRoughness",
+            "iridescenceFaceGain",
+            "iridescenceEdgeGain",
+            "iridescenceRoughness",
+            "iridescenceThickness",
+            "fuzzColor",
+            "subsurfaceColor",
+            "subsurfaceDmfpColor",
+            "singlescatterColor",
+            "singlescatterMfpColor",
+            "glassRefractionGain",
+            "glassReflectionGain",
+            "glassRefractionColor",
+            "glassRoughness",
+            "anisotropy",
+            "anisotropyDirection",
+            "glowColor",
             "bump",
+            "normal",
+            "presence",
             "displacementScalar",
-            "displacementVector"]
+            "displacementVector",
+            "mask",
+            "dirtColor"]
 
 
         # define name of attribute to export material tag
